@@ -3,8 +3,8 @@ package domain.model;
 import java.math.BigDecimal;
 
 public class Product {
-    private String name;
-    private BigDecimal price;
+    protected String name;
+    protected BigDecimal price;
 
     public Product(String name, BigDecimal price) {
         this.name = name;

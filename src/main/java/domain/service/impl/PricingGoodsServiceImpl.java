@@ -29,7 +29,10 @@ public class PricingGoodsServiceImpl implements PricingGoodsService {
                 }
                 else if (v < specialProduct.getQuantity()) {
 
-                    total[0] = total[0].add(product.getPrice());
+                    total[0] = total[0].add(product.getPrice().multiply(new BigDecimal(v)));
+                }
+                else {
+                    total[0] = total[0].add(specialProduct.getPrice());
                 }
             } else {
                 Product result = simplePriceList.stream().filter(product -> product.getName().equals(k)).findAny()

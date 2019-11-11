@@ -23,6 +23,7 @@ import java.util.TreeMap;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class PricingGoodsTest {
     private TreeMap<String, Integer> simpleGoodsToBuy;
+    private TreeMap<String, Integer> complexAndSimpleGoodsToBuy;
     private TreeMap<String, Integer> complexGoodsToBuy;
     private java.util.List<SpecialProduct> complexPriceList = new ArrayList<>();
     private List<Product> simplePriceList = new ArrayList<>();
@@ -36,12 +37,13 @@ public class PricingGoodsTest {
         loadSimplePriceList();
         loadSimpleGoodsToBuy();
         loadComplexPriceList();
+        loadComplexAndSimpleGoodsToBuy();
         loadComplexGoodsToBuy();
 
     }
 
     private void loadComplexPriceList() {
-        complexPriceList.add(new SpecialProduct("B", new BigDecimal(14), 2));
+        complexPriceList.add(new SpecialProduct("B", new BigDecimal(30), 4));
         complexPriceList.add(new SpecialProduct("E", new BigDecimal(10), 3));
     }
 
@@ -50,17 +52,23 @@ public class PricingGoodsTest {
         simplePriceList.add(new Product("B", new BigDecimal(8.55)));
         simplePriceList.add(new Product("C", new BigDecimal(10.5)));
         simplePriceList.add(new Product("D", new BigDecimal(8.01)));
+        simplePriceList.add(new Product("E", new BigDecimal(5)));
 
     }
 
     private void loadComplexGoodsToBuy() {
         complexGoodsToBuy = new TreeMap<String, Integer>();
-        complexGoodsToBuy.put("B", 5);
+        complexGoodsToBuy.put("E", 3);
     }
 
     private void loadSimpleGoodsToBuy() {
         simpleGoodsToBuy = new TreeMap<String, Integer>();
         simpleGoodsToBuy.put("A", 1);
+    }
+
+    private void loadComplexAndSimpleGoodsToBuy() {
+        complexAndSimpleGoodsToBuy = new TreeMap<String, Integer>();
+        complexAndSimpleGoodsToBuy.put("B", 6);
     }
 
     @Test
@@ -70,9 +78,16 @@ public class PricingGoodsTest {
     }
 
     @Test
+    public void complexAndSimplePricingGoodsTest() {
+        BigDecimal result = pricingGoodsService.getTotalAmountGoods(complexAndSimpleGoodsToBuy, complexPriceList, simplePriceList);
+        BigDecimal amount = (new BigDecimal(30)).add(new BigDecimal(8.55).multiply(new BigDecimal(2)));
+        Assert.assertEquals(amount, result);
+    }
+
+    @Test
     public void complexPricingGoodsTest() {
         BigDecimal result = pricingGoodsService.getTotalAmountGoods(complexGoodsToBuy, complexPriceList, simplePriceList);
-        BigDecimal amount = (new BigDecimal(8.55)).add(new BigDecimal(14).multiply(new BigDecimal(2)));
+        BigDecimal amount =  new BigDecimal(10);
         Assert.assertEquals(amount, result);
     }
 }
