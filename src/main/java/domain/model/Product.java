@@ -1,14 +1,18 @@
 package domain.model;
 
+import domain.service.api.PricingGoodsStrategy;
+
 import java.math.BigDecimal;
 
 public class Product {
-    protected String name;
-    protected BigDecimal price;
+    private String name;
+    private BigDecimal price;
+    private Integer quantity;
 
-    public Product(String name, BigDecimal price) {
+    public Product(String name, BigDecimal price, Integer quantity) {
         this.name = name;
         this.price = price;
+        this.quantity = quantity;
     }
 
     public String getName() {
@@ -25,5 +29,17 @@ public class Product {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public BigDecimal getTotalPrice(PricingGoodsStrategy pricingGoodsStrategy, int quantity){
+        return pricingGoodsStrategy.getTotalPrice(this, quantity);
     }
 }
